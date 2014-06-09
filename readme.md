@@ -2,7 +2,7 @@
 
 ## About
 
-Convert your WebP images to PNG.
+Convert WebP images to PNG with gulp task.
 
 [![Build Status](https://travis-ci.org/1000ch/gulp-dwebp.svg?branch=master)](https://travis-ci.org/1000ch/gulp-dwebp)
 [![NPM version](https://badge.fury.io/js/gulp-dwebp.svg)](http://badge.fury.io/js/gulp-dwebp)
