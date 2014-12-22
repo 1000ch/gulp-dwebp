@@ -10,7 +10,7 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "mocha --timeout=5s --reporter=spec test/test.js"
+    "test": "mocha --timeout=5000 --reporter=spec test/test.js"
   },
   "bugs": {
     "url": "https://github.com/1000ch/gulp-dwebp/issues"
