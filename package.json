@@ -1,6 +1,6 @@
 {
   "name": "gulp-dwebp",
-  "version": "0.1.4",
+  "version": "1.0.0",
   "description": "Convert WebP images to PNG with gulp task.",
   "bugs": {
     "url": "https://github.com/1000ch/gulp-dwebp/issues"
