@@ -2,36 +2,39 @@
   "name": "gulp-dwebp",
   "version": "0.1.4",
   "description": "Convert WebP images to PNG with gulp task.",
+  "bugs": {
+    "url": "https://github.com/1000ch/gulp-dwebp/issues"
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/1000ch/gulp-dwebp.git"
   },
-  "engines": {
-    "node": ">=0.10.0"
+  "license": "MIT",
+  "author": {
+    "name": "Shogo Sensui",
+    "email": "shogosensui@gmail.com",
+    "web": "https://github.com/1000ch"
   },
   "scripts": {
-    "test": "mocha --timeout=5000 --reporter=spec test/test.js"
+    "test": "xo && ava --timeout=60s"
   },
-  "bugs": {
-    "url": "https://github.com/1000ch/gulp-dwebp/issues"
+  "xo": {
+    "space": 2
   },
-  "author": {
-    "name": "1000ch",
-    "email": "shogo.sensui@gmail.com",
-    "web": "http://github.com/1000ch"
-  },
-  "directories": {
-    "test": "test"
+  "dependencies": {
+    "dwebp-bin": "^1.0.0",
+    "exec-buffer": "^3.2.0",
+    "plugin-error": "^1.0.1",
+    "replace-ext": "^2.0.0",
+    "through2": "^4.0.2"
   },
   "devDependencies": {
-    "mocha": "^2.0.1"
+    "ava": "^3.10.1",
+    "is-png": "^2.0.0",
+    "vinyl": "^2.2.0",
+    "xo": "^0.32.1"
   },
-  "license": "MIT",
-  "dependencies": {
-    "chalk": "^0.5.1",
-    "dwebp-bin": "^0.1.6",
-    "graceful-fs": "^3.0.5",
-    "gulp-util": "^3.0.1",
-    "through2": "^0.6.1"
+  "engines": {
+    "node": ">=10"
   }
 }

@@ -1,69 +1,44 @@
 'use strict';
+const path = require('path');
+const replaceExt = require('replace-ext');
+const PluginError = require('plugin-error');
+const through = require('through2');
+const execBuffer = require('exec-buffer');
+const dwebp = require('dwebp-bin');
 
-var fs = require('graceful-fs');
-var path = require('path');
+module.exports = (options = {}) => through.obj(async (file, enc, callback) => {
+  if (file.isNull()) {
+    callback(null, file);
+    return;
+  }
 
-var gutil = require('gulp-util');
-var through = require('through2');
-var chalk = require('chalk');
+  if (file.isStream()) {
+    callback(new PluginError('gulp-dwebp', 'Streaming not supported'));
+    return;
+  }
 
-var execFile = require('child_process').execFile;
-var dwebp = require('dwebp-bin').path;
+  if (!['.webp'].includes(path.extname(file.path).toLowerCase())) {
+    callback(null, file);
+    return;
+  }
 
-module.exports = function (options) {
+  const args = ['-o', execBuffer.output, execBuffer.input];
+  Object.keys(options).forEach(key => {
+    args.push('-' + key);
+    args.push(options[key]);
+  });
 
-  var options = options ? options : {};
-
-  return through.obj(function (file, enc, callback) {
-
-    if (file.isNull()) {
-      this.push(file);
-      return callback();
-    }
-
-    if (file.isStream()) {
-      this.emit('error', new gutil.PluginError('gulp-dwebp', 'Streaming not supported'));
-      return callback();
-    }
-
-    if (['.webp'].indexOf(path.extname(file.path).toLowerCase()) === -1) {
-      gutil.log('gulp-dwebp: Skipping unsupported image ' + gutil.colors.blue(file.relative));
-      return callback();
-    }
-
-    // create default args
-    var dest = gutil.replaceExtension(file.path, '.png');
-    var args = [file.path, '-o', dest];
-
-    // add options to args
-    Object.keys(options).forEach(function (key) {
-      args.push('-' + key);
-      args.push(options[key]);
+  try {
+    const buffer = await execBuffer({
+      input: file.contents,
+      bin: dwebp,
+      args
     });
 
-    try {
-      var that = this;
-      execFile(dwebp, args, function (error) {
-        if (error) {
-          return callback(new gutil.PluginError('gulp-dwebp', error));
-        }
-        fs.readFile(dest, function (error, data) {
-          if (error) {
-            return callback(new gutil.PluginError('gulp-dwebp', error));
-          }
-          gutil.log(
-            chalk.green('✔ ') + file.relative + ' was converted to ' + chalk.green(file.relative)
-          );
-
-          file.contents = data;
-          file.path = dest;
-
-          that.push(file);
-          callback();
-        });
-      });
-    } catch (error) {
-      this.emit('error', new gutil.PluginError('gulp-dwebp', error));
-    }
-  });
-};
+    file.contents = buffer;
+    file.path = replaceExt(file.path, '.png');
+    callback();
+  } catch (error) {
+    callback(new PluginError('gulp-dwebp', error));
+  }
+});
