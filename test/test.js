@@ -1,35 +1,42 @@
 'use strict';
+const fs = require('fs');
+const path = require('path');
+const test = require('ava');
+const Vinyl = require('vinyl');
+const isPng = require('is-png');
+const dwebp = require('..');
 
-var fs = require('fs');
-var assert = require('assert');
-var gutil = require('gulp-util');
-var dwebp = require('../index');
+test.cb('should convert WebP images', t => {
+  const webp = path.join(__dirname, 'fixtures/test.webp');
+  const png = path.join(__dirname, 'fixtures/test.png');
+  const stream = dwebp();
+  const buffer = fs.readFileSync(webp);
 
-it('should convert WebP images', function (callback) {
-  this.timeout(false);
-
-  var stream = dwebp();
-
-  stream.on('data', function (file) {
-    assert(fs.statSync('test/fixtures/test.png').isFile());
-    callback();
+  stream.on('data', file => {
+    t.true(isPng(file.contents));
+    t.is(file.path, png);
   });
 
-  stream.write(new gutil.File({
-    path: __dirname + '/fixtures/test.webp',
-    contents: fs.readFileSync('test/fixtures/test.webp')
+  stream.on('end', () => t.end());
+
+  stream.end(new Vinyl({
+    path: webp,
+    contents: buffer
   }));
 });
 
-it('should skip unsupported images', function (callback) {
-  var stream = dwebp();
+test.cb('should skip unsupported images', t => {
+  const bmp = path.join(__dirname, 'fixtures/test.bmp');
+  const stream = dwebp();
 
-  stream.on('data', function (file) {
-    assert.strictEqual(file.contents, null);
-    callback();
+  stream.on('data', file => {
+    t.is(file.contents, null);
   });
 
-  stream.write(new gutil.File({
-    path: __dirname + 'fixtures/test.bmp'
+  stream.on('end', () => t.end());
+
+  stream.end(new Vinyl({
+    path: bmp,
+    contents: null
   }));
 });

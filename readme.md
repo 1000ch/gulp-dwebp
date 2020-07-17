@@ -1,13 +1,6 @@
-# [gulp-dwebp](https://www.npmjs.org/package/gulp-dwebp)
-
-## About
+# gulp-dwebp [![Build Status](https://travis-ci.org/1000ch/gulp-dwebp.svg?branch=master)](https://travis-ci.org/1000ch/gulp-dwebp)
 
 Convert WebP images to PNG with gulp task.
-
-[![Build Status](https://travis-ci.org/1000ch/gulp-dwebp.svg?branch=master)](https://travis-ci.org/1000ch/gulp-dwebp)
-[![NPM version](https://badge.fury.io/js/gulp-dwebp.svg)](http://badge.fury.io/js/gulp-dwebp)
-[![Dependency Status](https://david-dm.org/1000ch/gulp-dwebp.svg)](https://david-dm.org/1000ch/gulp-dwebp)
-[![devDependency Status](https://david-dm.org/1000ch/gulp-dwebp/dev-status.svg)](https://david-dm.org/1000ch/gulp-dwebp#info=devDependencies)
 
 ## Install
 
@@ -20,8 +13,8 @@ $ npm install --save-dev gulp-dwebp
 This is `gulpfile.js` sample.
 
 ```js
-var gulp = require('gulp');
-var dwebp = require('../');
+const gulp = require('gulp');
+const dwebp = require('gulp-dwebp');
 
 gulp.task('dwebp', function () {
   gulp.src('./fixtures/*')
@@ -34,4 +27,4 @@ gulp.task('default', ['dwebp']);
 
 ## License
 
-MIT: http://1000ch.mit-license.org
+[MIT](https://1000ch.mit-license.org) © [Shogo Sensui](https://github.com/1000ch)
