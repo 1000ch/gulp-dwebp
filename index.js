@@ -37,7 +37,7 @@ module.exports = (options = {}) => through.obj(async (file, enc, callback) => {
 
     file.contents = buffer;
     file.path = replaceExt(file.path, '.png');
-    callback();
+    callback(null, file);
   } catch (error) {
     callback(new PluginError('gulp-dwebp', error));
   }
