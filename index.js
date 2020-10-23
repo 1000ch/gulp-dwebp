@@ -6,6 +6,8 @@ const through = require('through2');
 const execBuffer = require('exec-buffer');
 const dwebp = require('dwebp-bin');
 
+const booleanFlags = new Set(['bmp', 'tiff', 'pam', 'ppm', 'pgm', 'yuv', 'nofancy', 'nofilter', 'nodither', 'mt', 'flip', 'noasm']);
+
 module.exports = (options = {}) => through.obj(async (file, enc, callback) => {
   if (file.isNull()) {
     callback(null, file);
@@ -24,8 +26,11 @@ module.exports = (options = {}) => through.obj(async (file, enc, callback) => {
 
   const args = ['-o', execBuffer.output, execBuffer.input];
   Object.keys(options).forEach(key => {
-    args.push('-' + key);
-    args.push(options[key]);
+    args.push(`-${key}`);
+
+    if (!booleanFlags.has(key)) {
+      args.push(options[key]);
+    }
   });
 
   try {

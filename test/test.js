@@ -9,7 +9,7 @@ const dwebp = require('..');
 test.cb('should convert WebP images', t => {
   const webp = path.join(__dirname, 'fixtures/test.webp');
   const png = path.join(__dirname, 'fixtures/test.png');
-  const stream = dwebp();
+  const stream = dwebp({nofancy: true});
   const buffer = fs.readFileSync(webp);
 
   stream.on('data', file => {
@@ -27,7 +27,7 @@ test.cb('should convert WebP images', t => {
 
 test.cb('should skip unsupported images', t => {
   const bmp = path.join(__dirname, 'fixtures/test.bmp');
-  const stream = dwebp();
+  const stream = dwebp({nofancy: true});
 
   stream.on('data', file => {
     t.is(file.contents, null);
