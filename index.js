@@ -25,13 +25,13 @@ module.exports = (options = {}) => through.obj(async (file, enc, callback) => {
   }
 
   const args = ['-o', execBuffer.output, execBuffer.input];
-  Object.keys(options).forEach(key => {
+  for (const key of Object.keys(options)) {
     args.push(`-${key}`);
 
     if (!booleanFlags.has(key)) {
       args.push(options[key]);
     }
-  });
+  }
 
   try {
     const buffer = await execBuffer({
