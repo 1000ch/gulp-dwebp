@@ -1,14 +1,13 @@
-'use strict';
-const fs = require('fs');
-const path = require('path');
-const test = require('ava');
-const Vinyl = require('vinyl');
-const isPng = require('is-png');
-const dwebp = require('..');
+import fs from 'node:fs';
+import {fileURLToPath} from 'node:url';
+import test from 'ava';
+import Vinyl from 'vinyl';
+import isPng from 'is-png';
+import dwebp from '../index.js';
 
 test.cb('should convert WebP images', t => {
-  const webp = path.join(__dirname, 'fixtures/test.webp');
-  const png = path.join(__dirname, 'fixtures/test.png');
+  const webp = fileURLToPath(new URL('fixtures/test.webp', import.meta.url));
+  const png = fileURLToPath(new URL('fixtures/test.png', import.meta.url));
   const stream = dwebp({nofancy: true});
   const buffer = fs.readFileSync(webp);
 
@@ -21,12 +20,12 @@ test.cb('should convert WebP images', t => {
 
   stream.end(new Vinyl({
     path: webp,
-    contents: buffer
+    contents: buffer,
   }));
 });
 
 test.cb('should skip unsupported images', t => {
-  const bmp = path.join(__dirname, 'fixtures/test.bmp');
+  const bmp = fileURLToPath(new URL('fixtures/test.bmp', import.meta.url));
   const stream = dwebp({nofancy: true});
 
   stream.on('data', file => {
@@ -37,6 +36,6 @@ test.cb('should skip unsupported images', t => {
 
   stream.end(new Vinyl({
     path: bmp,
-    contents: null
+    contents: null,
   }));
 });

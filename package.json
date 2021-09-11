@@ -15,6 +15,7 @@
     "email": "shogosensui@gmail.com",
     "web": "https://github.com/1000ch"
   },
+  "type": "module",
   "scripts": {
     "test": "xo && ava --timeout=60s"
   },
@@ -35,6 +36,6 @@
     "xo": "^0.44.0"
   },
   "engines": {
-    "node": ">=12"
+    "node": ">=12.20"
   }
 }

@@ -1,14 +1,13 @@
-'use strict';
-const path = require('path');
-const replaceExt = require('replace-ext');
-const PluginError = require('plugin-error');
-const through = require('through2');
-const execBuffer = require('exec-buffer');
-const dwebp = require('dwebp-bin');
+import path from 'node:path';
+import replaceExt from 'replace-ext';
+import PluginError from 'plugin-error';
+import through from 'through2';
+import execBuffer from 'exec-buffer';
+import bin from 'dwebp-bin';
 
 const booleanFlags = new Set(['bmp', 'tiff', 'pam', 'ppm', 'pgm', 'yuv', 'nofancy', 'nofilter', 'nodither', 'mt', 'flip', 'noasm']);
 
-module.exports = (options = {}) => through.obj(async (file, enc, callback) => {
+const dwebp = (options = {}) => through.obj(async (file, enc, callback) => {
   if (file.isNull()) {
     callback(null, file);
     return;
@@ -36,8 +35,8 @@ module.exports = (options = {}) => through.obj(async (file, enc, callback) => {
   try {
     const buffer = await execBuffer({
       input: file.contents,
-      bin: dwebp,
-      args
+      bin,
+      args,
     });
 
     file.contents = buffer;
@@ -47,3 +46,5 @@ module.exports = (options = {}) => through.obj(async (file, enc, callback) => {
     callback(new PluginError('gulp-dwebp', error));
   }
 });
+
+export default dwebp;
