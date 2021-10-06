@@ -1,4 +1,4 @@
-# gulp-dwebp ![GitHub Actions Status](https://github.com/1000ch/gulp-dwebp/workflows/test/badge.svg?branch=master)
+# gulp-dwebp ![GitHub Actions Status](https://github.com/1000ch/gulp-dwebp/workflows/test/badge.svg)
 
 Convert WebP images to PNG with gulp task.
 
