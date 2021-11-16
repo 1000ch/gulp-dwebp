@@ -16,6 +16,7 @@
     "web": "https://github.com/1000ch"
   },
   "type": "module",
+  "exports": "./index.js",
   "scripts": {
     "test": "xo && ava --timeout=60s"
   },
@@ -23,7 +24,7 @@
     "space": 2
   },
   "dependencies": {
-    "dwebp-bin": "^1.0.0",
+    "dwebp-bin": "^2.0.1",
     "exec-buffer": "^3.2.0",
     "plugin-error": "^1.0.1",
     "replace-ext": "^2.0.0",
@@ -32,7 +33,7 @@
   "devDependencies": {
     "ava": "^3.15.0",
     "is-png": "^3.0.0",
-    "p-event": "^4.2.0",
+    "p-event": "^5.0.1",
     "vinyl": "^2.2.1",
     "xo": "^0.45.0"
   },
